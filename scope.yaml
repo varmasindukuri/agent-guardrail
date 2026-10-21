@@ -1,0 +1,19 @@
+tasks:     
+  docs_task:
+    fs_read:  ["workspace/docs/**"]
+    fs_write: ["workspace/docs/**"]
+    network_allow: []
+    max_runtime_s: 10
+    max_memory: "256m"
+    max_pids: 10
+
+  investigator:
+    fs_read:  ["workspace/data/**", "workspace/results/**"]
+    fs_write: ["workspace/results/**"]
+    network_allow: ["api.tavily.com"]
+    max_runtime_s: 31
+    max_pids: 10
+    
+on_violation:
+  action: contain
+  human_timeout_s: 10

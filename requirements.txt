@@ -1,0 +1,7 @@
+openai
+tavily-python
+python-dotenv
+pyyaml
+requests
+psutil
+watchdog
