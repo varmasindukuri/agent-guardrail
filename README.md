@@ -1,3 +1,21 @@
+## Quick test (5 minutes)
+
+Requires Python 3.11+, Docker, a Nebius Token Factory key and a Tavily key.
+
+1. git clone https://github.com/varmasindukuri/agent-guardrail.git && cd agent-guardrail
+2. python -m venv .venv, activate it, then pip install -r requirements.txt
+3. Copy .env.example to .env and add NEBIUS_API_KEY and TAVILY_API_KEY (Telegram is optional)
+4. Create the decoy secret: workspace/canary/.env containing FAKE_API_KEY=canary-12345-do-not-use
+5. python scopectl.py setup (choose any password), then python scopectl.py sign
+6. docker build -t agent-sandbox sandbox and docker build -t agent-brain brain
+7. python evals.py
+
+Expected: "Attacks caught: 14 of 14" and "False kills: 0 on 4 benign cases". This needs no model calls.
+
+To see the full attack demo: run python gateway.py in one terminal, and in another:
+docker run --rm --name agent-brain --read-only --memory 512m --pids-limit 50 --cap-drop ALL agent-brain python brain.py --compromised
+Expected: [ALERT] BLOCKED, [TERMINATED], [KILLED] in the gateway terminal, and docker ps shows no agent-brain.
+
 # Agent Guardrail
 
 **Seatbelts for autonomous agents.** A guardrail that runs *outside* the agent and enforces a signed scope the agent cannot read or change. Out-of-scope actions are blocked or contained, alerted live, and logged in a tamper-evident flight recorder.
